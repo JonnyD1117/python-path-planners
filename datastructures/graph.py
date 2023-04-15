@@ -71,10 +71,14 @@ class Graph:
     
 
     def print_graph(self):
-        for node, adj_dict in self._graph_dict.items():
 
-            name_ls = [node._index for node, edge in adj_dict.items()]
-            print(f"Node = {node._index}, Adjency List = {name_ls}")
+        if self._graph_dict:
+            for node, adj_dict in self._graph_dict.items():
+
+                name_ls = [node._index for node, edge in adj_dict.items()]
+                print(f"Node = {node._index}, Adjency List = {name_ls}")
+        else:
+            raise ValueError("Cannot Print Graph. Graph Dictionary does not exist")
 
 
 if __name__ == "__main__":

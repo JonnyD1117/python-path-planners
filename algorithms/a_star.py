@@ -146,7 +146,7 @@ class AStar(AlgorithmBase):
                 self._f_score[neighbor] = self._g_score[neighbor] + self._heuristic(neighbor, end_node)
                 self._prev_node[neighbor] = current                                                               
 
-        return False
+        raise ValueError("No Feasible Solution Found through Map")
 
 if __name__ == "__main__":
     pass

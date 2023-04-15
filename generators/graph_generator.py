@@ -58,8 +58,7 @@ class GraphGenerator(GridmapMixin):
         if self._config["map"]["inflate"]:            
             input_map = self._inflate_map_obstacle(self._inflation_radius, input_map)
 
-        self._pgm_map = input_map 
-        
+        self._pgm_map = input_map  
         
     #############################
     #       Private Methods 
@@ -123,41 +122,45 @@ class GraphGenerator(GridmapMixin):
             cur_node = self._graph.get_node_from_index(idx)
 
             # North Node 
-            if self._pgm_map[north_idx] == self._map_high:
+            if self._pgm_map[north_idx] >= self._map_high:
                 north_node = self._graph.get_node_from_index(north_idx)
                 self._graph.add_edge(cur_node, north_node, 1)
             # South Node
-            if self._pgm_map[south_idx] == self._map_high:
+            if self._pgm_map[south_idx] >= self._map_high:
                 south_node = self._graph.get_node_from_index(south_idx)
                 self._graph.add_edge(cur_node, south_node, 1)
             # West Node
-            if self._pgm_map[west_idx] == self._map_high:
+            if self._pgm_map[west_idx] >= self._map_high:
                 west_node = self._graph.get_node_from_index(west_idx)
                 self._graph.add_edge(cur_node, west_node, 1)
             # East Node
-            if self._pgm_map[east_idx] == self._map_high:
+            if self._pgm_map[east_idx] >= self._map_high:
                 east_node = self._graph.get_node_from_index(east_idx)
                 self._graph.add_edge(cur_node, east_node, 1)
 
             if self._connectivity:
                 # North West Node 
-                if self._pgm_map[nw_idx] == self._map_high:
+                if self._pgm_map[nw_idx] >= self._map_high:
                     nw_node = self._graph.get_node_from_index(nw_idx)
                     self._graph.add_edge(cur_node, nw_node, 1.414)
                 # North East Node 
-                if self._pgm_map[ne_idx] == self._map_high:
+                if self._pgm_map[ne_idx] >= self._map_high:
                     nw_node = self._graph.get_node_from_index(ne_idx)
                     self._graph.add_edge(cur_node, nw_node, 1.414)
                 # South West Node 
-                if self._pgm_map[sw_idx] == self._map_high:
+                if self._pgm_map[sw_idx] >= self._map_high:
                     sw_node = self._graph.get_node_from_index(sw_idx)
                     self._graph.add_edge(cur_node, sw_node, 1.414)
                 # South East Node 
-                if self._pgm_map[se_idx] == self._map_high:
+                if self._pgm_map[se_idx] >= self._map_high:
                     se_node = self._graph.get_node_from_index(se_idx)
                     self._graph.add_edge(cur_node, se_node, 1.414)
 
         if prune:
             self._graph.prune_graph()
 
-        return self._graph
+
+        if self._graph._graph_dict:
+            return self._graph
+        else:
+            raise ValueError("Graph could not be build")
